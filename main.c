@@ -9,7 +9,7 @@ int pattern = 10; // 要素数ごとの種類
 int rand_create(FILE *fp, int n, int init) {
   srand((unsigned int)time(NULL) + init);
   for(int i = 0;i < n;i++){
-    fprintf(fp,"%d ",rand());
+    fprintf(fp,"%d\n",rand());
   }
   return 0;
 }
@@ -27,7 +27,7 @@ int main(void) {
     scanf("%d[^\n]%*c", &n[i]);
     //出力ファイル名の指定
     for (int j = 0; j < pattern; j++) {
-      sprintf(fname[i * pattern + j], "%s%d%s%d%s", "./randnum/randnum-", i, "-", j,".txt");
+      sprintf(fname[i * pattern + j], "%s%d%s%d%s", "randnum-", i, "-", j,".txt");
     }
   }
 
