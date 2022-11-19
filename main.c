@@ -30,7 +30,6 @@ int main(void) {
     //出力ファイル名の指定
     for (int j = 0; j < pattern; j++) {
       sprintf(fname[i * pattern + j], "%s%s%d%s%d%s", fname_pass, "randnum-", i, "-", j,".txt");
-      printf("fname[%d]:%s%s%d%s%d%s", i * pattern + j, fname_pass, "randnum-", i, "-", j,".txt\n");
     }
   }
 
