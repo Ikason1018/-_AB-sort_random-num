@@ -52,7 +52,7 @@ expeII_AB-sort_random-num<dr> ──┬── .vscode<dr> ──┬── settin
 
 ## 例：ソート対象の乱数の個数を![1,2,4,8,\ldots,2^{30}](https://latex.codecogs.com/svg.image?\begin{equation}{\color{black}1,2,4,8,\ldots,2^{30}}\end{equation})個と変化させた時のソート時間の変化を測定する時(1つの場合につき5回測定)
 
-`randnum_gen.c`内の変数`n[]`は`int`型のため、これが32bitの場合は最大値が![2^{31}-1](https://latex.codecogs.com/svg.image?\begin{equation}{\color{black}2^{31}-1}\end{equation})になるが、今回は![2^{30}](https://latex.codecogs.com/svg.image?\begin{equation}{\color{black}2^{30}}\end{equation})個のためプログラム内の32bit整数型`int`を64bit整数型に変更しなくても心配ない[^2]。
+`randnum_gen.c`内の変数`n[]`は`int`型のため、これが32bitの場合は最大値が![2^{31}-1](https://latex.codecogs.com/svg.image?\begin{equation}{\color{black}2^{31}-1}\end{equation})になるが、今回は![2^{30}](https://latex.codecogs.com/svg.image?\begin{equation}{\color{black}2^{30}}\end{equation})個のためプログラム内の32bit整数型`int`を64bit整数型に変更しなくても心配ない[^3]。
 
 次に、![1=2^0](https://latex.codecogs.com/svg.image?\begin{equation}{\color{black}1=2^0}\end{equation})から![2^{30}](https://latex.codecogs.com/svg.image?\begin{equation}{\color{black}2^{30}}\end{equation})まで変化させるときの場合は全部で31個ある。つまり、`Elemcase=30`となる。また、1つの場合につき5回計測とあるため、`pattern=5`となる。
 
