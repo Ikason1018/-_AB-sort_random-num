@@ -12,16 +12,17 @@
 ダウンロードしたZIPファイルを解凍したものは、以下の階層になっている。
 ​
 ```
-expeII_AB-sort_random-num<dr> ──┬── .vscode<dr> ───── tasks.json
+expeII_AB-sort_random-num<dr> ──┬── .vscode<dr> ──┬── settings.json
+                                |                 └── tasks.json
                                 ├── randnum<dr> ───── randnum-[0-2]-[0-9].txt
                                 │── 20221125計測結果.txt
+                                │── README.md
+                                │── Sort_time_list.csv
                                 │── config.txt
                                 │── randnum_gen.c
                                 │── randnum_gen.exe
                                 │── randnum_template.c
-                                │── randnum_template.exe
-                                │── README.md
-                                └── Sort_time_list.csv
+                                └── randnum_template.exe
 ```
 
 初期状態で出力乱数ファイルは`randnum`フォルダ直下に生成される。
@@ -49,14 +50,13 @@ expeII_AB-sort_random-num<dr> ──┬── .vscode<dr> ───── tasks.
 # ☆の操作
 [パラメータとファイル階層構造](#パラメータとファイル階層構造)に示したパラメータの内、太字になっている`Elemcase`, `pattern`は本レポジトリの`randnum_gen.c`でそれぞれ`3`, `10`となっている。そのため、実行ファイルが生成する出力乱数ファイルは合計で30個存在する。この2つのパラメータを計測条件に応じて書き換えることで、目的に応じた出力乱数ファイルが生成される。
 
-## 例：ソート対象の乱数の個数を$1, 2, 4, 8, \ldots , 2^{30}$個と変化させた時のソート時間の変化を測定する時(1つの場合につき5回測定)
+## 例：ソート対象の乱数の個数を![1,2,4,8,\ldots,2^{30}](https://latex.codecogs.com/svg.image?\begin{equation}{\color{black}1,2,4,8,\ldots,2^{30}}\end{equation})個と変化させた時のソート時間の変化を測定する時(1つの場合につき5回測定)
 
-`randnum_gen.c`内の変数`n[]`は`int`型のため、これが32bitの場合は最大値が$2^{31}-1$になるが、今回は$2^{30}$個のためプログラム内の32bit整数型`int`を64bit整数型に変更しなくても心配ない[^2]。
+`randnum_gen.c`内の変数`n[]`は`int`型のため、これが32bitの場合は最大値が![2^{31}-1](https://latex.codecogs.com/svg.image?\begin{equation}{\color{black}2^{31}-1}\end{equation})になるが、今回は![2^{30}](https://latex.codecogs.com/svg.image?\begin{equation}{\color{black}2^{30}}\end{equation})個のためプログラム内の32bit整数型`int`を64bit整数型に変更しなくても心配ない[^2]。
 
-次に、$1=2^0$から$2^{30}$まで変化させるときの場合は全部で31個ある。つまり、`Elemcase=30`となる。また、1つの場合につき5回計測とあるため、`pattern=5`となる。
+次に、![1=2^0](https://latex.codecogs.com/svg.image?\begin{equation}{\color{black}1=2^0}\end{equation})から![2^{30}](https://latex.codecogs.com/svg.image?\begin{equation}{\color{black}2^{30}}\end{equation})まで変化させるときの場合は全部で31個ある。つまり、`Elemcase=30`となる。また、1つの場合につき5回計測とあるため、`pattern=5`となる。
 
-出力乱数ファイルは`Elemcase`と`pattern`の積である$30×5=150$個存在するため、最も長い出力乱数ファイル名は`randnum-29-149.txt`となる。これは18文字のため、`fname_pass`の文字数との合計が`fname_max`の初期値`50`を超える場合は`fname_max`をより大きな数に書き換える。`fname_pass`の初期値は`"randnum/"`のため、`fname_pass`をより長いものに変更しない限りは$18+8=26$で50を超えない。
-
+出力乱数ファイルは`Elemcase`と`pattern`の積である![30×5=150](https://latex.codecogs.com/svg.image?\begin{equation}{\color{black}30\times5=150}\end{equation})個存在するため、最も長い出力乱数ファイル名は`randnum-29-149.txt`となる。これは18文字のため、`fname_pass`の文字数との合計が`fname_max`の初期値`50`を超える場合は`fname_max`をより大きな数に書き換える。`fname_pass`の初期値は`"randnum/"`のため、`fname_pass`をより長いものに変更しない限りは![18+8=26](https://latex.codecogs.com/svg.image?\begin{equation}{\color{black}18+8=26}\end{equation})で50を超えない。
 
 [^1]:実行環境にgccコンパイラが既にインストールされている前提である。
 [^2]:理解されていると思うが、`fname_pass`を変更した場合は`randnum`フォルダでは無いこともある。
