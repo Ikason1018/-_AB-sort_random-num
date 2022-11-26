@@ -1,41 +1,85 @@
-#include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <math.h>
 #include <time.h>
 #define int_digit 12 // INT_MAX(32bit)の桁数+2('\n\0'の分)
+#define parameter_num 4 // Elemcase, pattern, fname_pass, fname_maxの4つ
+#define str_length 20 // 適当な値
 
 //パラメータ(configファイルから読み込む)
 int Elemcase;                              // 要素数の種類
 int pattern;                               // 要素数ごとの種類
 char *fname_pass;                          // fnameのpass
 int fname_max;                             // fnameの文字数
-char *config_fname = "config.txt";         // configファイル
-char *export_fname = "Sort_time_list.csv"; // 測定結果出力ファイル
+const char *config_fname = "config.txt";         // configファイル
+const char *export_fname = "Sort_time_list.csv"; // 測定結果出力ファイル
 
 //任意のソーティングアルゴリズム関数:void 関数名(int x[], int n){}
-void bubble_sort(int x[], int n) { //バブルソート関数
-  int temp = 0;
-  for (int i = 0; i < n - 1; i++) {
-    for (int j = n - 1; j > i; j--) {
-      if (x[j - 1] > x[j]) {
-        temp = x[j - 1];
-        x[j - 1] = x[j];
-        x[j] = temp;
-      }
+void merge(int array[], int l, int m, int r)
+{
+    int i=0, j=0;
+    int k;
+    int n1 = m - l + 1;
+    int n2 = r - m;
+ 
+    int L[n1], R[n2];
+ 
+    for (int ii = 0; ii < n1; ii++){
+        L[ii] = array[l + ii];
     }
+    for (int jj = 0; jj < n2; jj++){
+        R[jj] = array[m + 1 + jj];
+    }
+    k = l; 
+    while (i < n1 && j < n2) {
+        if (L[i] <= R[j]) {
+            array[k] = L[i++];
+        }
+        else {
+            array[k] = R[j++];
+        }
+        k++;
+    }
+ 
+    while (i < n1) {
+        array[k++] = L[i++];
+    }
+ 
+    while (j < n2) {
+        array[k++] = R[j++];
+    }
+}
+
+void mergeSort(int arr[], int l, int r)
+{
+  if (l < r) {
+    int m = l + (r - l) / 2;
+ 
+    mergeSort(arr, l, m);
+    mergeSort(arr, m + 1, r);
+ 
+    merge(arr, l, m, r);
   }
 }
 
+//実験1で使用
 int randnum_import(FILE *fp, int *x, const int n) {
   char str[n][int_digit];
   for (int i = 0; i < n; i++) {
     if (fgets(str[i], int_digit, fp) == NULL) {
       return 1;
     }
-    x[i] = (int)strtol(str[n], NULL, 10); // 10進数に変換
+    x[i] = (int)strtol(str[i], NULL, 10); // 10進数に変換
   }
   return 0;
+}
+
+//実験2で使用
+void sorted_import(int *x, const int n) {
+  for (int i = 0; i < n; i++) {
+    x[i] = n - i - 1;
+  }
 }
 
 int main(void) {
@@ -45,21 +89,23 @@ int main(void) {
   char *fname;
   clock_t start_sort, end_sort;
   double **sort_time, *sort_ave, *sort_SD;
+  char str[parameter_num][str_length];
 
   // configファイルの読み込み
   if ((fp = fopen(config_fname, "r")) == NULL) {
     printf("\"%s\" could not be opened.\n", config_fname);
     return 1;
   }
-  char str[4][20];
-  for(int i = 0;i < 4;i++){
-    if(fgets(str[i], 20, fp) == NULL){
+  for (int i = 0; i < parameter_num; i++) {
+    if (fgets(str[i], str_length, fp) == NULL) {
       return 1;
     }
   }
   // 出典:https://teratail.com/questions/281401
-  char *p = strchr(str[3], '\n');  // 改行文字を探す
-  if (p) *p = '\0';        // 改行文字あれば、上書きして消す
+  char *p = strchr(str[3], '\n'); // 改行文字を探す
+  if (p){
+    *p = '\0'; // 改行文字あれば、上書きして消す
+  }
   Elemcase = (int)strtol(str[0], NULL, 10);
   pattern = (int)strtol(str[1], NULL, 10);
   fname_max = (int)strtol(str[2], NULL, 10);
@@ -83,7 +129,7 @@ int main(void) {
   for (int i = 0; i < Elemcase; i++) {
     printf("  n[%d]:%d\n", i, n[i]);
   }
-  fclose(fp); //configファイルを閉じる
+  fclose(fp); // configファイルを閉じる
 
   //計算部
   for (int i = 0; i < Elemcase; i++) {
@@ -97,14 +143,15 @@ int main(void) {
         return 1;
       }
       //出力乱数ファイルの読み込み
-      if (randnum_import(fp, x, n[i]) == 1) {
+      if (randnum_import(fp, x, n[i]) == 1) { //実験1
         return 1;
       }
+      // sorted_import(x, n[i]); //実験2
 
       //ソート時間の計測
       start_sort = clock();
       //任意のソーティングアルゴリズム関数:関数名(x, n[i]);
-      bubble_sort(x, n[i]);
+      mergeSort(x, 0, n[i]-1);
       end_sort = clock();
       sort_time[i][j] = (double)(end_sort - start_sort) / CLOCKS_PER_SEC;
 
@@ -116,9 +163,8 @@ int main(void) {
       printf("Sorting of \"%s\" has been completed.\n", fname);
     }
     //平均aveと標準偏差SDの計算
-    sort_ave[i] = sort_ave[i] / (double)Elemcase;
-    sort_SD[i] =
-        sqrt(sort_SD[i] / (double)Elemcase - sort_ave[i] * sort_ave[i]);
+    sort_ave[i] = sort_ave[i] / (double)pattern;
+    sort_SD[i] = sqrt(sort_SD[i] / (double)pattern - sort_ave[i] * sort_ave[i]);
   }
 
   //出力部
@@ -143,13 +189,11 @@ int main(void) {
     }
     fprintf(fp, "%d,Ave,SD\n", Elemcase - 1);
     for (int i = 0; i < Elemcase; i++) {
-      fprintf(fp, "rand_file:%srandnum-%d-N.txt(n[%d]:%d)\n", fname_pass, i, i,
-              n[i]);
+      fprintf(fp, "rand_file:%srandnum-%d-N.txt(n[%d]:%d)\n", fname_pass, i, i, n[i]);
       for (int j = 0; j < pattern - 1; j++) {
         fprintf(fp, "%lf,", sort_time[i][j]);
       }
-      fprintf(fp, "%lf,Ave:%lf,SD:%lf\n", sort_time[i][pattern - 1],
-              sort_ave[i], sort_SD[i]);
+      fprintf(fp, "%lf,Ave:%lf,SD:%lf\n", sort_time[i][pattern - 1], sort_ave[i], sort_SD[i]);
     }
     fclose(fp);
     printf("Measurement results were output to %s.\n", export_fname);

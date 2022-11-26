@@ -1,0 +1,256 @@
+expe1, expe2の結果をコピペして以下のサイトに入れて変換するとTeXにそのまま貼れる。
+http://rra.yahansugi.com/scriptapplet/csv2tabular/index.html
+
+<BubbleSort>
+--code--
+//任意のソーティングアルゴリズム関数:void 関数名(int x[], int n){}
+void bubble_sort(int x[], int n) { //バブルソート関数
+  int temp = 0;
+  for (int i = 0; i < n - 1; i++) {
+    for (int j = n - 1; j > i; j--) {
+      if (x[j - 1] > x[j]) {
+        temp = x[j - 1];
+        x[j - 1] = x[j];
+        x[j] = temp;
+      }
+    }
+  }
+}
+
+--expe1--
+Time taken to sort random numbers.(unit:[s])
+N=0,1,2,Ave,SD
+rand_file:randnum/randnum-0-N.txt(n[0]:100)
+0.000018,0.000017,0.000015,0.000016,0.000017,0.000015,0.000017,0.000016,0.000016,0.000016,Ave:0.000016,SD:0.000001
+rand_file:randnum/randnum-1-N.txt(n[1]:1000)
+0.000981,0.001077,0.000922,0.001081,0.001408,0.001168,0.001107,0.001110,0.001179,0.001128,Ave:0.001116,SD:0.000123
+rand_file:randnum/randnum-2-N.txt(n[2]:100000)
+18.897714,18.809705,18.504008,18.316927,18.474954,18.478664,18.180602,18.183913,18.243916,18.302719,Ave:18.439312,SD:0.236284
+
+--expe2--
+Time taken to sort random numbers.(unit:[s])
+N=0,1,2,Ave,SD
+rand_file:randnum/randnum-0-N.txt(n[0]:100)
+0.000006,0.000007,0.000006,0.000005,0.000006,0.000006,0.000005,0.000005,0.000006,0.000006,Ave:0.000006,SD:0.000001
+rand_file:randnum/randnum-1-N.txt(n[1]:1000)
+0.000442,0.000401,0.000426,0.000423,0.000411,0.000438,0.000407,0.000465,0.000434,0.000474,Ave:0.000432,SD:0.000023
+rand_file:randnum/randnum-2-N.txt(n[2]:100000)
+4.453576,4.607311,4.663960,4.760796,4.786613,4.798049,4.801225,4.807394,4.818741,4.944887,Ave:4.744255,SD:0.129495
+
+
+
+<SelectSort>
+--code--
+//任意のソーティングアルゴリズム関数:void 関数名(int x[], int n){}
+void selectsort(int a[], int n)
+{
+  int i, j, k, min;
+  
+  for (i=0; i<n-1; i++){
+    min = a[i];
+    k = i;
+    for (j=i+1; j<n; j++)
+      if (a[j] < min){
+        min = a[j];
+        k = j;
+      }
+    a[k] = a[i];
+    a[i] = min;
+  }
+}
+
+--expe1--
+Time taken to sort random numbers.(unit:[s])
+N=0,1,2,Ave,SD
+rand_file:randnum/randnum-0-N.txt(n[0]:100)
+0.000021,0.000009,0.000008,0.000008,0.000008,0.000008,0.000007,0.000008,0.000008,0.000008,Ave:0.000009,SD:0.000004
+rand_file:randnum/randnum-1-N.txt(n[1]:1000)
+0.000358,0.000370,0.000352,0.000356,0.000341,0.000467,0.000440,0.000480,0.000420,0.000490,Ave:0.000407,SD:0.000056
+rand_file:randnum/randnum-2-N.txt(n[2]:100000)
+2.849125,2.775615,2.645532,2.742222,2.835973,2.747168,2.675950,2.874298,2.838387,2.822817,Ave:2.780709,SD:0.073125
+
+--expe2--
+Time taken to sort random numbers.(unit:[s])
+N=0,1,2,Ave,SD
+rand_file:randnum/randnum-0-N.txt(n[0]:100)
+0.000007,0.000006,0.000004,0.000005,0.000004,0.000004,0.000004,0.000004,0.000005,0.000004,Ave:0.000005,SD:0.000001
+rand_file:randnum/randnum-1-N.txt(n[1]:1000)
+0.000271,0.000204,0.000243,0.000261,0.000233,0.000337,0.000255,0.000278,0.000304,0.000280,Ave:0.000267,SD:0.000035
+rand_file:randnum/randnum-2-N.txt(n[2]:100000)
+2.736503,2.634287,2.641295,2.746559,2.922650,2.878800,2.721456,2.840437,2.790768,2.834178,Ave:2.774693,SD:0.091346
+
+
+
+<insertionSort>
+--code--
+//任意のソーティングアルゴリズム関数:void 関数名(int x[], int n){}
+void swap(int *from, int *to) {
+    int tmp;
+    tmp = *from;
+    *from = *to;
+    *to = tmp;
+}
+void insertionSort(int a[], int n)
+{
+  int j;
+    for (int i=1; i < n; i++) {
+      j = i;
+      while ((j > 0) && (a[j-1] > a[j])) {
+        swap(&a[j-1], &a[j]);
+            j--;
+        }
+    }
+}
+
+--expe1--
+Time taken to sort random numbers.(unit:[s])
+N=0,1,2,Ave,SD
+rand_file:randnum/randnum-0-N.txt(n[0]:100)
+0.000005,0.000004,0.000004,0.000005,0.000005,0.000006,0.000006,0.000006,0.000005,0.000005,Ave:0.000005,SD:0.000001
+rand_file:randnum/randnum-1-N.txt(n[1]:1000)
+0.000262,0.000318,0.000421,0.000293,0.000326,0.000395,0.000346,0.000338,0.000348,0.000440,Ave:0.000349,SD:0.000053
+rand_file:randnum/randnum-2-N.txt(n[2]:100000)
+3.299097,3.474899,3.308214,3.160172,3.455177,3.479809,3.452589,3.340819,3.279796,3.241832,Ave:3.349240,SD:0.105412
+
+--expe2--
+Time taken to sort random numbers.(unit:[s])
+N=0,1,2,Ave,SD
+rand_file:randnum/randnum-0-N.txt(n[0]:100)
+0.000006,0.000004,0.000004,0.000005,0.000005,0.000004,0.000005,0.000004,0.000005,0.000004,Ave:0.000005,SD:0.000001
+rand_file:randnum/randnum-1-N.txt(n[1]:1000)
+0.000498,0.000498,0.000402,0.000404,0.000467,0.000426,0.000331,0.000404,0.000416,0.000515,Ave:0.000436,SD:0.000054
+rand_file:randnum/randnum-2-N.txt(n[2]:100000)
+4.873928,4.726234,4.465383,5.090978,5.194224,5.283724,5.195301,5.114452,5.116591,5.096308,Ave:5.015712,SD:0.239750
+
+
+
+<MergeSort>
+--example--
+mergeSort(x, 0, n[i] - 1);
+
+--code--
+//任意のソーティングアルゴリズム関数:void 関数名(int x[], int n){}
+void merge(int array[], int l, int m, int r)
+{
+    int i=0, j=0;
+    int k;
+    int n1 = m - l + 1;
+    int n2 = r - m;
+ 
+    int L[n1], R[n2];
+ 
+    for (int ii = 0; ii < n1; ii++){
+        L[ii] = array[l + ii];
+    }
+    for (int jj = 0; jj < n2; jj++){
+        R[jj] = array[m + 1 + jj];
+    }
+    k = l; 
+    while (i < n1 && j < n2) {
+        if (L[i] <= R[j]) {
+            array[k] = L[i++];
+        }
+        else {
+            array[k] = R[j++];
+        }
+        k++;
+    }
+ 
+    while (i < n1) {
+        array[k++] = L[i++];
+    }
+ 
+    while (j < n2) {
+        array[k++] = R[j++];
+    }
+}
+
+void mergeSort(int arr[], int l, int r)
+{
+  if (l < r) {
+    int m = l + (r - l) / 2;
+ 
+    mergeSort(arr, l, m);
+    mergeSort(arr, m + 1, r);
+ 
+    merge(arr, l, m, r);
+  }
+}
+
+--expe1--
+Time taken to sort random numbers.(unit:[s])
+N=0,1,2,Ave,SD
+rand_file:randnum/randnum-0-N.txt(n[0]:100)
+0.000008,0.000007,0.000006,0.000006,0.000006,0.000006,0.000006,0.000006,0.000006,0.000006,Ave:0.000006,SD:0.000001
+rand_file:randnum/randnum-1-N.txt(n[1]:1000)
+0.000065,0.000060,0.000065,0.000061,0.000061,0.000075,0.000080,0.000061,0.000060,0.000058,Ave:0.000065,SD:0.000007
+rand_file:randnum/randnum-2-N.txt(n[2]:100000)
+0.007926,0.008107,0.007398,0.008255,0.007761,0.007891,0.007665,0.007376,0.008484,0.008648,Ave:0.007951,SD:0.000406
+
+--expe2--
+Time taken to sort random numbers.(unit:[s])
+N=0,1,2,Ave,SD
+rand_file:randnum/randnum-0-N.txt(n[0]:100)
+0.000005,0.000003,0.000003,0.000002,0.000007,0.000006,0.000004,0.000005,0.000005,0.000004,Ave:0.000004,SD:0.000001
+rand_file:randnum/randnum-1-N.txt(n[1]:1000)
+0.000047,0.000045,0.000045,0.000045,0.000052,0.000071,0.000045,0.000045,0.000044,0.000045,Ave:0.000048,SD:0.000008
+rand_file:randnum/randnum-2-N.txt(n[2]:100000)
+0.006254,0.005665,0.005458,0.005721,0.005960,0.005747,0.005426,0.005785,0.005872,0.005757,Ave:0.005765,SD:0.000226
+
+
+
+<QuickSort>
+--example--
+quickSort(x, 0, n[i] - 1);
+
+--code--
+//任意のソーティングアルゴリズム関数:void 関数名(int x[], int n){}
+void swap(int *a, int *b) {
+    int tmp;
+    tmp = *b;
+    *b = *a;
+    *a = tmp;
+}
+
+void quickSort(int a[], int left, int right) {
+  int pivot, i, j;
+
+  i = left;
+  j = right;
+
+  pivot = a[(left+right)/2];
+
+  while(1) {
+    while (a[i] < pivot) i++;
+    
+    while (a[j] > pivot) j--;
+    
+    if (i >= j) break;
+
+    swap(&(a[i]), &(a[j]));
+    i++;
+    j--;
+  }
+  if(left<i-1) quickSort(a, left, i - 1);
+  if(j+1<right)quickSort(a, j + 1, right);
+}
+
+--expe1--
+Time taken to sort random numbers.(unit:[s])
+N=0,1,2,Ave,SD
+rand_file:randnum/randnum-0-N.txt(n[0]:100)
+0.000007,0.000006,0.000007,0.000006,0.000006,0.000007,0.000007,0.000006,0.000007,0.000006,Ave:0.000007,SD:0.000000
+rand_file:randnum/randnum-1-N.txt(n[1]:1000)
+0.000084,0.000153,0.000064,0.000082,0.000065,0.000067,0.000064,0.000066,0.000089,0.000059,Ave:0.000079,SD:0.000026
+rand_file:randnum/randnum-2-N.txt(n[2]:100000)
+0.010624,0.009983,0.009839,0.010560,0.010164,0.010864,0.009915,0.010249,0.010431,0.009793,Ave:0.010242,SD:0.000348
+
+--expe2--
+Time taken to sort random numbers.(unit:[s])
+N=0,1,2,Ave,SD
+rand_file:randnum/randnum-0-N.txt(n[0]:100)
+0.000027,0.000003,0.000002,0.000001,0.000001,0.000002,0.000002,0.000002,0.000001,0.000001,Ave:0.000004,SD:0.000008
+rand_file:randnum/randnum-1-N.txt(n[1]:1000)
+0.000010,0.000009,0.000009,0.000009,0.000010,0.000010,0.000010,0.000010,0.000011,0.000011,Ave:0.000010,SD:0.000001
+rand_file:randnum/randnum-2-N.txt(n[2]:100000)
+0.001550,0.001471,0.001532,0.001476,0.001480,0.001412,0.001628,0.001526,0.001532,0.001642,Ave:0.001525,SD:0.000067

@@ -25,17 +25,14 @@ int main(void) {
 
   //初期設定
   printf("RAND_MAX:%d\nPlease enter the number of the %dth types of elements "
-         "in order.\n",
-         RAND_MAX, Elemcase);
+         "in order.\n",RAND_MAX, Elemcase);
   for (int i = 0; i < Elemcase; i++) {
     printf("  n[%d]:", i);
     scanf("%d[^\n]%*c", &n[i]);
     //出力ファイル名の指定
     for (int j = 0; j < pattern; j++) {
-      sprintf(fname[i][j], "%s%s%d%s%d%s", fname_pass, "randnum-", i, "-", j,
-              ".txt");
-      printf("fname[%d]:%s%s%d%s%d%s", i * pattern + j, fname_pass, "randnum-",
-             i, "-", j, ".txt\n");
+      sprintf(fname[i][j], "%s%s%d%s%d%s", fname_pass, "randnum-", i, "-", j, ".txt");
+      // printf("fname[%d]:%s%s%d%s%d%s", i * pattern + j, fname_pass, "randnum-", i, "-", j, ".txt\n");
     }
   }
 
